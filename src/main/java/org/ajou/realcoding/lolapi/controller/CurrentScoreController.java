@@ -1,10 +1,10 @@
 package org.ajou.realcoding.lolapi.controller;
 
+import jdk.nashorn.internal.runtime.regexp.joni.MatcherFactory;
+import org.ajou.realcoding.lolapi.domain.MatchData;
 import org.ajou.realcoding.lolapi.service.CurrentScoreService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class CurrentScoreController {
@@ -12,9 +12,9 @@ public class CurrentScoreController {
     @Autowired
     private CurrentScoreService currentScoreService;
 
-    @GetMapping("")
-    public UserInfo getUserID(@RequestParam String summonerName) {
-        return currentScoreService.getUserID(summonerName);
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @GetMapping("/lol/match/v4/matches/{matchId}")
+    public MatchData getCurrentMatchDataByGameId(@PathVariable long gameId) {
+        return currentScoreService.getCurrentMatchDataByGameId(gameId);
     }
-
 }
