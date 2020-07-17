@@ -5,12 +5,13 @@ import org.springframework.data.annotation.Id;
 
 @Data
 public class MatchInfo {
-    private String platformId;
     @Id
-    private String champion;
-    private String queue;
-    private String season;
-    private String timeStamp;
+    private long gameId;
+    private String platformId;
+    private int champion;
+    private int queue;
+    private int season;
+    private long timeStamp;
     private String role;
     private String lane;
 }
