@@ -17,18 +17,18 @@ public class CurrentScoreService {
     @Autowired
     private CurrentScoreRepository currentScoreRepository;
 
-    public void getMatchData(long gameId){
-        MatchData currentMatchData = scoreOpenApiClient.getMatchData(gameId);
+    public MatchData getMatchData(String matchId){
+        MatchData currentMatchData = scoreOpenApiClient.getMatchData(matchId);
 
+        long gameId = Long.parseLong(matchId);
         MatchData currentMatchFromDb = currentScoreRepository.findCurrentMatchDataByGameId(gameId);
 
         if (currentMatchFromDb == null || currentMatchFromDb.getGameId() != currentMatchData.getGameId()) {
             MatchData insertedOrUpdatedMatchData = currentScoreRepository.insertOrUpdatedCurrentMatchData(currentMatchData);
-            log.info("CurrentMatchData has inserted or updated successfully. CurrentWeather : {}", insertedOrUpdatedMatchData);
+            log.info("New MatchData has inserted or updated successfully. CurrentMatchData : {}", insertedOrUpdatedMatchData);
+            return insertedOrUpdatedMatchData;
         }
+        log.info("Already exists. CurrentMatchData : {}", currentMatchFromDb);
+        return currentMatchFromDb;
     }
-    public MatchData getCurrentMatchDataByGameId(long gameId) {
-        return currentScoreRepository.findCurrentMatchDataByGameId(gameId);
-    }
-
 }
