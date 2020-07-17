@@ -17,15 +17,16 @@ public class CurrentScoreController {
     private CurrentScoreService currentScoreService;
 
     @GetMapping("/LOL/games")
-    public void saveUserInfo(@RequestParam String summonerName) {
+    public UserInfo saveUserInfo(@RequestParam String summonerName) {
         log.info("SUMMONER NAME: {}", summonerName);
         currentScoreService.saveUserInfo(summonerName);
-    }
-
-    @GetMapping("/LOL/games/User")
-    public UserInfo findUserInfo(@RequestParam String summonerName) {
         return currentScoreService.getUserInfo(summonerName);
     }
+
+//    @GetMapping("/LOL/games/User")
+//    public UserInfo findUserInfo(@RequestParam String summonerName) {
+//
+//    }
 
 
 }
