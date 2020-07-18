@@ -15,14 +15,14 @@ public class CurrentScoreRepository {
     private MongoTemplate mongoTemplate;
 
     public MatchData insertOrUpdatedCurrentMatchData(MatchData currentMatchData) {
-        log.info("CurrentMatchData has inserted or updated successfully. CurrentMatchData : {}", currentMatchData);
+        //log.info("CurrentMatchData has inserted or updated successfully. CurrentMatchData : {}", currentMatchData);
         return mongoTemplate.save(currentMatchData);
     }
 
     public MatchData findCurrentMatchDataByGameId(long gameId) {
         Query query = new Query();
         query.addCriteria(Criteria.where("gameId").is(gameId));
-        log.info("Find CurrentMatchData : {}", gameId);
+        //log.info("Find CurrentMatchData : {}", gameId);
         return mongoTemplate.findOne(query, MatchData.class);
     }
 }

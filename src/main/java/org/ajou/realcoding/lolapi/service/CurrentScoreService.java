@@ -35,17 +35,18 @@ public class CurrentScoreService {
         return currentMatchFromDb;
     }
 
-    public Analysis analyzeMatchData(MatchData matchData, String summonerName){
+    public Analysis analyzeMatchData(MatchData matchData){
         Analysis analysis = new Analysis();
+        String summonerName = "Hide on bush";
 
         List<ParticipantIdentityDto> participantIdentities = matchData.getParticipantIdentities();
         List<ParticipantDto> participant = matchData.getParticipants();
         List<TeamStatsDto> teamStats = matchData.getTeams();
 
         for(int i = 0; i < participantIdentities.size(); i++){
-            if(summonerName.equals(participantIdentities.get(i).getPlayer().getSummonerId())){
+            if(summonerName.equals(participantIdentities.get(i).getPlayer().getSummonerName())){
                 analysis.setParticipantId(participantIdentities.get(i).getParticipantId());
-
+                log.info("ParticipantId : {}", analysis.getParticipantId());
                 for(int j = 0; j < participant.size(); j++){
                     if(analysis.getParticipantId() == participant.get(j).getParticipantId()){
                         analysis.setTeamId(participant.get(j).getTeamId());
@@ -53,10 +54,12 @@ public class CurrentScoreService {
                         analysis.setKill(participant.get(j).getStats().getKills());
                         analysis.setDeath(participant.get(j).getStats().getDeaths());
                         analysis.setAssists(participant.get(j).getStats().getAssists());
+                        log.info("Participant Stat : {}", participant.get(j).getStats());
 
                         for(int k = 0; k <teamStats.size(); k++){
                             if(analysis.getTeamId() == teamStats.get(k).getTeamId()){
                                 analysis.setWin(teamStats.get(k).getWin());
+                                log.info("Participant Win : {}", teamStats.get(k));
                             }
                         }
                     }
