@@ -17,8 +17,8 @@ public class CurrentScoreController {
     private CurrentScoreService currentScoreService;
 
     @GetMapping("lol/league/v4/entries/by-summoner/{encryptedSummonerId}")
-    public List<SoloRankInfo> getQueueType(@PathVariable String encryptedSummonerId) {
-        return currentScoreService.getQueueType(encryptedSummonerId);
+    public List<SoloRankInfo> getSoloRankInfo(@PathVariable String encryptedSummonerId) {
+        return currentScoreService.getSoloRankInfo(encryptedSummonerId);
     }
 
 }
