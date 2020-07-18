@@ -14,9 +14,8 @@ public class CurrentScoreController {
     private CurrentScoreService currentScoreService;
 
     @GetMapping("/lol/match/v4/matchlists/by-account")
-    public MatchInfo getGameId(@RequestParam long GameId)
+    public MatchInfo getGameId(@RequestParam String accountId)
     {
-        return currentScoreService.getGameId(GameId);
+        return currentScoreService.getGameId(accountId);
     }
-
 }
