@@ -15,18 +15,18 @@ public class CurrentScoreRepository {
     @Autowired
     private MongoTemplate mongoTemplate;
 
-    public void saveCurrentSummonerName(UserInfo userInfo){
-        UserInfo saveInfo = mongoTemplate.save(userInfo);
-        log.info("Saved: {}", saveInfo);
+    public UserInfo insertOrUpdatedCurrentUserInfo(UserInfo userInfo){
+        return mongoTemplate.save(userInfo);
     }
 
 
     public UserInfo findUserInfoByName(String summonerName) {
+        log.info("Searching for ...");
         Query query = Query.query(
                 Criteria.where("name").is(summonerName)
         );
         UserInfo userInfo = mongoTemplate.findOne(query, UserInfo.class);
-        log.info("USER INFO: {}", userInfo.toString());
+        log.info("Found userInfo!! : {}", userInfo.toString());
         return userInfo;
     }
 }
