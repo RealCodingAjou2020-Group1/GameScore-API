@@ -19,7 +19,7 @@ public class CurrentScoreRepository
     {
         Query query = Query.query(Criteria.where("_id").is(accountId));
 
-        MatchInfo matchInfo = mongoTemplate.find(query, MatchInfo.class);
+        MatchInfo matchInfo = mongoTemplate.findOne(query, MatchInfo.class);
         return matchInfo;
     }
 }
