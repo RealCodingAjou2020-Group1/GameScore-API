@@ -1,6 +1,8 @@
 package org.ajou.realcoding.lolapi.domain;
 
 import lombok.Data;
+import org.springframework.data.annotation.Id;
+
 
 @Data
 public class SoloRankInfo {
@@ -8,9 +10,14 @@ public class SoloRankInfo {
     private String queueType;
     private String tier;
     private String rank;
+    @Id
     private String summonerId;
     private String summonerName;
     private int leaguePoints;
     private int wins;
     private int losses;
+    private boolean veteran;
+    private boolean inactive;
+    private boolean freshBlood;
+    private boolean hotStreak;
 }
