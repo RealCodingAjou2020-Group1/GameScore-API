@@ -40,8 +40,8 @@ public class CurrentScoreService
     @Scheduled(fixedDelay = 5000L)
     public void getCurrentGameIdEveryFiveSeconds()
     {
-        UserInfo userInfo = scoreOpenApiClient.getGameId(accountId1);
-        currentScoreRepository.saveGameId(userInfo);
+        MatchInfo matchInfo = scoreOpenApiClient.getGameId(accountId1);
+        currentScoreRepository.saveGameId(matchInfo);
     }
 
 }
