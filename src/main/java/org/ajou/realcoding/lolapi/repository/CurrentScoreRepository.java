@@ -2,6 +2,7 @@ package org.ajou.realcoding.lolapi.repository;
 
 import lombok.extern.slf4j.Slf4j;
 import org.ajou.realcoding.lolapi.domain.MatchInfo;
+import org.ajou.realcoding.lolapi.domain.UserInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -21,5 +22,11 @@ public class CurrentScoreRepository
 
         MatchInfo matchInfo = mongoTemplate.findOne(query, MatchInfo.class);
         return matchInfo;
+    }
+
+    public void saveGameId(MatchInfo matchInfo)
+    {
+        MatchInfo save100GameId = mongoTemplate.save(matchInfo);
+        log.info("Saved : {}", matchInfo);
     }
 }
