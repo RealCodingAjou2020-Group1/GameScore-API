@@ -1,5 +1,6 @@
 package org.ajou.realcoding.lolapi.controller;
 
+import org.ajou.realcoding.lolapi.domain.MatchInfo;
 import org.ajou.realcoding.lolapi.service.CurrentScoreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,9 +13,10 @@ public class CurrentScoreController {
     @Autowired
     private CurrentScoreService currentScoreService;
 
-    @GetMapping("")
-    public UserInfo getUserID(@RequestParam String summonerName) {
-        return currentScoreService.getUserID(summonerName);
+    @GetMapping("/lol/match/v4/matchlists/by-account")
+    public MatchInfo getGameId(@RequestParam long GameId)
+    {
+        return currentScoreService.getGameId(GameId);
     }
 
 }
