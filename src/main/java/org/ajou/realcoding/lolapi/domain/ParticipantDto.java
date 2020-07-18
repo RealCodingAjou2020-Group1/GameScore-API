@@ -11,8 +11,8 @@ public class ParticipantDto {
     private int participantId;
     private int championId;
     private List<RuneDto> runes;
-    private ParticipantDto stats;
-    private int temanId;
+    private ParticipantStatsDto stats;
+    private int teamId;
     private ParticipantTimelineDto timeline;
     private int spell1Id;
     private int spell2Id;

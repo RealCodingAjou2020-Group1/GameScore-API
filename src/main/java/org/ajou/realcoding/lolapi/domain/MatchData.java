@@ -9,7 +9,7 @@ import java.util.List;
 public class MatchData {
     @Id
     private long gameId;
-    private List<PraticipantIdentityDto> participantIdentities;
+    private List<ParticipantIdentityDto> participantIdentities;
     private int queueId;
     private String gameType;
     private long gameDuration;

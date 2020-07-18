@@ -27,7 +27,7 @@ public class ParticipantStatsDto {
     private int largestCitiesStrike;
     private int nodeNeutralize;
     private int totalTimeCrowdControlDealt;
-    private boolean fristTowerKill;
+    private boolean firstTowerKill;
     private long magicDamageDealt;
     private int totalScoreRank;
     private int nodeCapture;
@@ -73,7 +73,7 @@ public class ParticipantStatsDto {
     private long trueDamageDealt;
     private int quadraKills;
     private int item4;
-    private int itme3;
+    private int item3;
     private int item6;
     private int item5;
     private int playerScore0;
@@ -112,9 +112,4 @@ public class ParticipantStatsDto {
     private int perk5Var3;
     private int perkPrimaryStyle;
     private int perkSubStyle;
-
-
-
-
-
 }

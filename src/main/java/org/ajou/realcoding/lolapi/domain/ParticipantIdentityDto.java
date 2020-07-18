@@ -4,7 +4,7 @@ import lombok.Data;
 import org.springframework.data.annotation.Id;
 
 @Data
-public class PraticipantIdentityDto {
+public class ParticipantIdentityDto {
     @Id
     private int participantId;
     private PlayerDto player;

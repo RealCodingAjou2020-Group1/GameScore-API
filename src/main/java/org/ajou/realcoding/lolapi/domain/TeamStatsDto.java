@@ -20,7 +20,7 @@ public class TeamStatsDto {
     private boolean firstInhibitor;
     private boolean firstTower;
     private int vilemawKills;
-    private boolean firstRiftHeral;
+    private boolean firstRiftHerald;
     private int teamId;
     private String win;
 }
