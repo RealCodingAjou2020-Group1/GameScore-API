@@ -6,6 +6,7 @@ import org.ajou.realcoding.lolapi.repository.CurrentScoreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 
 
 @Service
@@ -15,9 +16,9 @@ public class CurrentScoreService {
     @Autowired
     private CurrentScoreRepository currentScoreRepository;
 
-    public SoloRankInfo getQueueType(String encryptedSummonerId) {
-        SoloRankInfo soloRankInfo = scoreOpenApiClient.getQueueType(encryptedSummonerId);
-        currentScoreRepository.saveCurrentSummonerName(soloRankInfo);
+    public List<SoloRankInfo> getSoloRankInfo(String encryptedSummonerId) {
+        List<SoloRankInfo> soloRankInfo = scoreOpenApiClient.getSoloRankInfo(encryptedSummonerId);
+        currentScoreRepository.saveSoloRankInfo(soloRankInfo);
         return currentScoreRepository.findUserInfoByName(encryptedSummonerId);
     }
 }
