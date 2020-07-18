@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class CurrentScoreController {
-
+public class CurrentScoreController
+{
     @Autowired
     private CurrentScoreService currentScoreService;
 
