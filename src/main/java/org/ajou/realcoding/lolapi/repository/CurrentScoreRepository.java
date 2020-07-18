@@ -21,4 +21,13 @@ public class CurrentScoreRepository
         MatchInfo save100GameId = mongoTemplate.save(matchInfo);
         log.info("Saved : {}", matchInfo);
     }
+
+    public MatchInfo findGameId(String accountId)
+    {
+        Query query = Query.query(
+                Criteria.where("_id").is(accountId)
+        );
+        MatchInfo matchInfo = (MatchInfo) mongoTemplate.findOne(query, MatchInfo.class);
+        return matchInfo;
+    }
 }
