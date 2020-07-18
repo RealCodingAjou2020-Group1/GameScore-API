@@ -8,6 +8,8 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 
 @Repository
 @Slf4j
@@ -15,18 +17,20 @@ public class CurrentScoreRepository {
     @Autowired
     private MongoTemplate mongoTemplate;
 
-    public void saveCurrentSummonerName(SoloRankInfo soloRankInfo){
-        SoloRankInfo saveQueueType = mongoTemplate.save(soloRankInfo);
-        log.info("Saved: {}", saveQueueType);
+    public void saveSoloRankInfo(List<SoloRankInfo> soloRankInfoList){
+        for(SoloRankInfo soloRankInfo : soloRankInfoList){
+            mongoTemplate.save(soloRankInfo);
+            log.info("Saved: {}", soloRankInfo);
+        }
     }
 
 
-    public SoloRankInfo findUserInfoByName(String encryptedSummonerId) {
+    public List<SoloRankInfo> findSoloRankInfo(String encryptedSummonerId) {
         Query query = Query.query(
                 Criteria.where("summonerId").regex(encryptedSummonerId, "i")
         );
-        SoloRankInfo soloRankInfo = mongoTemplate.findOne(query, SoloRankInfo.class);
-        log.info("USER INFO: {}", soloRankInfo.toString());
-        return soloRankInfo;
+        List<SoloRankInfo> soloRankInfoList = mongoTemplate.find(query, SoloRankInfo.class);
+        log.info("USER INFO: {}", soloRankInfoList.toString());
+        return soloRankInfoList;
     }
 }
