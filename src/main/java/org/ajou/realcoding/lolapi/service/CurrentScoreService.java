@@ -19,6 +19,6 @@ public class CurrentScoreService {
     public List<SoloRankInfo> getSoloRankInfo(String encryptedSummonerId) {
         List<SoloRankInfo> soloRankInfo = scoreOpenApiClient.getSoloRankInfo(encryptedSummonerId);
         currentScoreRepository.saveSoloRankInfo(soloRankInfo);
-        return currentScoreRepository.findUserInfoByName(encryptedSummonerId);
+        return currentScoreRepository.findSoloRankInfo(encryptedSummonerId);
     }
 }
