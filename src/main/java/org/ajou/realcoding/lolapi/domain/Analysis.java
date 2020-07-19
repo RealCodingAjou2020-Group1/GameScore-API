@@ -1,14 +1,17 @@
 package org.ajou.realcoding.lolapi.domain;
 
 import lombok.Data;
+import org.springframework.data.annotation.Id;
 
 @Data
 public class Analysis {
-    int participantId;
-    int teamId;
-    String win;
-    int championId;
-    int kill;
-    int death;
-    int assists;
+    private String summonerName;
+    private long gameId;
+    private int participantId;
+    private int teamId;
+    private String win;
+    private int championId;
+    private int kill;
+    private int death;
+    private int assists;
 }

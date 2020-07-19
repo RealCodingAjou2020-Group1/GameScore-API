@@ -8,7 +8,9 @@ import org.ajou.realcoding.lolapi.domain.*;
 import org.ajou.realcoding.lolapi.repository.CurrentScoreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -19,46 +21,66 @@ public class CurrentScoreService {
     @Autowired
     private CurrentScoreRepository currentScoreRepository;
 
-    public MatchData getMatchData(String matchId){
-        MatchData currentMatchData = scoreOpenApiClient.getMatchData(matchId);
+    public List<String> getFiveGameId(String accountId) {
+        List<String> fiveGameIds = new ArrayList<>();
 
-        long gameId = Long.parseLong(matchId);
+        GameIds currentGameIds = currentScoreRepository.saveGameId(scoreOpenApiClient.getGameId(accountId));
 
-        MatchData currentMatchFromDb = currentScoreRepository.findCurrentMatchDataByGameId(gameId);
+        List<GameIds.MatchReferenceDto> temp = currentGameIds.getMatches();
 
-        if (currentMatchFromDb == null || currentMatchFromDb.getGameId() != currentMatchData.getGameId()) {
-            MatchData insertedOrUpdatedMatchData = currentScoreRepository.insertOrUpdatedCurrentMatchData(currentMatchData);
-            log.info("New MatchData has inserted or updated successfully. CurrentMatchData : {}", insertedOrUpdatedMatchData);
-            return insertedOrUpdatedMatchData;
+        for(int i = 0; i < 5; i++){
+            fiveGameIds.add(String.valueOf(temp.get(i).getGameId()));
         }
-        log.info("Already exists. CurrentMatchData : {}", currentMatchFromDb);
-        return currentMatchFromDb;
+
+        return fiveGameIds;
     }
 
-    public Analysis analyzeMatchData(MatchData matchData){
-        Analysis analysis = new Analysis();
-        String summonerName = "Hide on bush";
+    public List<Analysis> getAnalysis(List<String> gameIds, String summonerName){
+        List<Analysis> resultAnalysis = new ArrayList<Analysis>();
+
+        for(String matchId : gameIds){
+            Analysis currentAnalysis = analyzeMatchData(scoreOpenApiClient.getMatchData(matchId), summonerName);
+            long gameId = Long.parseLong(matchId);
+            Analysis currentAnalysisFromDb = currentScoreRepository.findCurrentAnalysisByGameIdAndName(gameId, summonerName);
+            if (currentAnalysisFromDb == null || currentAnalysisFromDb.getGameId() != currentAnalysis.getGameId()) {
+                Analysis insertedOrUpdatedAnalysis = currentScoreRepository.insertOrUpdatedCurrentResult(currentAnalysis);
+                log.info("New Analysis has inserted or updated successfully. CurrentAnalysis : {}", insertedOrUpdatedAnalysis);
+                resultAnalysis.add(insertedOrUpdatedAnalysis);
+            }
+            else{
+                log.info("Already exists. CurrentAnalysis : {}", currentAnalysisFromDb);
+                resultAnalysis.add(currentAnalysisFromDb);
+            }
+        }
+        return resultAnalysis;
+    }
+
+    public Analysis analyzeMatchData(MatchData matchData, String summonerName){
+        Analysis currentAnalysis = new Analysis();
 
         List<ParticipantIdentityDto> participantIdentities = matchData.getParticipantIdentities();
         List<ParticipantDto> participant = matchData.getParticipants();
         List<TeamStatsDto> teamStats = matchData.getTeams();
 
+        currentAnalysis.setSummonerName(summonerName);
+        currentAnalysis.setGameId(matchData.getGameId());
+
         for(int i = 0; i < participantIdentities.size(); i++){
             if(summonerName.equals(participantIdentities.get(i).getPlayer().getSummonerName())){
-                analysis.setParticipantId(participantIdentities.get(i).getParticipantId());
-                log.info("ParticipantId : {}", analysis.getParticipantId());
+                currentAnalysis.setParticipantId(participantIdentities.get(i).getParticipantId());
+                log.info("ParticipantId : {}", currentAnalysis.getParticipantId());
                 for(int j = 0; j < participant.size(); j++){
-                    if(analysis.getParticipantId() == participant.get(j).getParticipantId()){
-                        analysis.setTeamId(participant.get(j).getTeamId());
-                        analysis.setChampionId(participant.get(j).getChampionId());
-                        analysis.setKill(participant.get(j).getStats().getKills());
-                        analysis.setDeath(participant.get(j).getStats().getDeaths());
-                        analysis.setAssists(participant.get(j).getStats().getAssists());
+                    if(currentAnalysis.getParticipantId() == participant.get(j).getParticipantId()){
+                        currentAnalysis.setTeamId(participant.get(j).getTeamId());
+                        currentAnalysis.setChampionId(participant.get(j).getChampionId());
+                        currentAnalysis.setKill(participant.get(j).getStats().getKills());
+                        currentAnalysis.setDeath(participant.get(j).getStats().getDeaths());
+                        currentAnalysis.setAssists(participant.get(j).getStats().getAssists());
                         log.info("Participant Stat : {}", participant.get(j).getStats());
 
                         for(int k = 0; k <teamStats.size(); k++){
-                            if(analysis.getTeamId() == teamStats.get(k).getTeamId()){
-                                analysis.setWin(teamStats.get(k).getWin());
+                            if(currentAnalysis.getTeamId() == teamStats.get(k).getTeamId()){
+                                currentAnalysis.setWin(teamStats.get(k).getWin());
                                 log.info("Participant Win : {}", teamStats.get(k));
                             }
                         }
@@ -66,7 +88,7 @@ public class CurrentScoreService {
                 }
             }
         }
-
-        return analysis;
+        return currentAnalysis;
     }
+
 }

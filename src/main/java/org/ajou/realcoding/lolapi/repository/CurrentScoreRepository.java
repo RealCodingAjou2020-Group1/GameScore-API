@@ -1,7 +1,8 @@
 package org.ajou.realcoding.lolapi.repository;
 
 import lombok.extern.slf4j.Slf4j;
-import org.ajou.realcoding.lolapi.domain.MatchData;
+import org.ajou.realcoding.lolapi.domain.Analysis;
+import org.ajou.realcoding.lolapi.domain.GameIds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -14,15 +15,24 @@ public class CurrentScoreRepository {
     @Autowired
     private MongoTemplate mongoTemplate;
 
-    public MatchData insertOrUpdatedCurrentMatchData(MatchData currentMatchData) {
+    public Analysis insertOrUpdatedCurrentResult(Analysis analysis) {
         //log.info("CurrentMatchData has inserted or updated successfully. CurrentMatchData : {}", currentMatchData);
-        return mongoTemplate.save(currentMatchData);
+        return mongoTemplate.save(analysis);
     }
 
-    public MatchData findCurrentMatchDataByGameId(long gameId) {
+    public Analysis findCurrentAnalysisByGameIdAndName(long gameId, String summonerName) {
         Query query = new Query();
         query.addCriteria(Criteria.where("gameId").is(gameId));
-        //log.info("Find CurrentMatchData : {}", gameId);
-        return mongoTemplate.findOne(query, MatchData.class);
+        log.info("Find  : {}", gameId);
+        query.addCriteria(Criteria.where("summonerName").is(summonerName));
+        log.info("Find  : {}", summonerName);
+        return mongoTemplate.findOne(query, Analysis.class);
+    }
+
+    public GameIds saveGameId(GameIds gameIds) {
+        GameIds save100GameId = mongoTemplate.save(gameIds);
+        log.info("Saved : {}", gameIds);
+
+        return save100GameId;
     }
 }
