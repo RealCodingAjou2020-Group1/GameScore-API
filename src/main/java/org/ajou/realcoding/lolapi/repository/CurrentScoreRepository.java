@@ -15,7 +15,7 @@ public class CurrentScoreRepository {
     @Autowired
     private MongoTemplate mongoTemplate;
 
-    public void saveSoloRankInfo(List<SoloRankInfo> soloRankInfoList){
+    public void insertOrUpdateCurrentSoloRankInfo(List<SoloRankInfo> soloRankInfoList){
         for(SoloRankInfo soloRankInfo : soloRankInfoList){
             mongoTemplate.save(soloRankInfo);
             log.info("Saved: {}", soloRankInfo);
