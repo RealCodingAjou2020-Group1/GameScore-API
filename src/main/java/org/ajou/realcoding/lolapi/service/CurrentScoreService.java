@@ -20,7 +20,13 @@ public class CurrentScoreService
     public GameIds getGameId(String accountId)
     {
         GameIds gameIds = scoreOpenApiClient.getGameId(accountId);
-        currentScoreRepository.saveGameId(gameIds);
+        if(currentScoreRepository.findGameIds(accountId) == null){}
+        else
+        {
+            currentScoreRepository.saveGameId(gameIds);
+        }
         return gameIds;
     }
+
+
 }
