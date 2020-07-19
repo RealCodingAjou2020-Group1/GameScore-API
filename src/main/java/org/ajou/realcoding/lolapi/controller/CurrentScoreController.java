@@ -1,6 +1,6 @@
 package org.ajou.realcoding.lolapi.controller;
 
-import org.ajou.realcoding.lolapi.domain.MatchInfo;
+import org.ajou.realcoding.lolapi.domain.GameIds;
 import org.ajou.realcoding.lolapi.service.CurrentScoreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,7 +14,7 @@ public class CurrentScoreController
     private CurrentScoreService currentScoreService;
 
     @GetMapping("/lol/match/v4/matchlists/by-account")
-    public MatchInfo getGameId(@RequestParam String accountId)
+    public GameIds getGameId(@RequestParam String accountId)
     {
         return currentScoreService.getGameId(accountId);
     }
