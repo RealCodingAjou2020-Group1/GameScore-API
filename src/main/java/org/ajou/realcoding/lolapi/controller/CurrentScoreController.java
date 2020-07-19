@@ -20,7 +20,7 @@ public class CurrentScoreController {
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping("/lol/games/{summonerName}")
     public UserInfo saveUserInfo(@RequestParam String summonerName) {
-        return currentScoreService.getUserInfo(summonerName);
+        return currentScoreService.getSoloRankInfo(currentScoreService.getUserInfo(summonerName).getId());
     }
 
 
