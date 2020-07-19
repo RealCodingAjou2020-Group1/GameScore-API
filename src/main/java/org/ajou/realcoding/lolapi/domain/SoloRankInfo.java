@@ -10,8 +10,8 @@ public class SoloRankInfo {
     //private String tier;
     private String rank;
     @Id
-    //private String summonerId;
-    //private String summonerName;
+    private String summonerId;
+    private String summonerName;
     private int leaguePoints;
     private int wins;
     private int losses;

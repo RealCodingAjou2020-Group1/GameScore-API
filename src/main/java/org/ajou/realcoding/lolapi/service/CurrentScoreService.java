@@ -26,8 +26,8 @@ public class CurrentScoreService {
         if(currentSoloRankInfoFromDb.isEmpty()){
             List<SoloRankInfo> soloRankInfo = scoreOpenApiClient.getSoloRankInfo(encryptedSummonerId);
             currentScoreRepository.insertOrUpdateCurrentSoloRankInfo(soloRankInfo);
-            currentSoloRankInfoFromDb = currentScoreRepository.findSoloRankInfo(encryptedSummonerId);
             log.info("CurrentUserInfo has inserted or updated successfully. UserInfo : {}", currentSoloRankInfoFromDb);
+            return currentScoreRepository.findSoloRankInfo(encryptedSummonerId);
         }
         log.info("Already exists. CurrentUserInfo : {}", currentSoloRankInfoFromDb);
         return currentSoloRankInfoFromDb;

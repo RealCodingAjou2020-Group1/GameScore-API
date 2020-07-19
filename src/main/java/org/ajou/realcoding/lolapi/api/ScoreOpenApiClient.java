@@ -16,7 +16,7 @@ public class ScoreOpenApiClient {
     @Autowired
     private RestTemplate restTemplate;
 
-    private static final String QueueTypeREQUEST_URI = "https://kr.api.riotgames.com/lol/league/v4/entries/by-summoner/{encryptedSummonerId}?api_key=RGAPI-39a256b7-c406-4a68-9b07-e4185b4ec41a";
+    private static final String QueueTypeREQUEST_URI = "https://kr.api.riotgames.com/lol/league/v4/entries/by-summoner/{encryptedSummonerId}?api_key=RGAPI-01e036eb-2f4a-443d-abc0-25d0c58850a7";
 
     public List<SoloRankInfo> getSoloRankInfo(String encryptedSummonerId){
         SoloRankInfo[] response = restTemplate.getForObject(QueueTypeREQUEST_URI, SoloRankInfo[].class, encryptedSummonerId);
