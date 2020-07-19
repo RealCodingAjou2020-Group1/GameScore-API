@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Service
-@EnableScheduling
 public class CurrentScoreService
 {
     @Autowired
