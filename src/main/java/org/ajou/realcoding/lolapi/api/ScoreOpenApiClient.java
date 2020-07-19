@@ -18,7 +18,7 @@ public class ScoreOpenApiClient {
     private RestTemplate restTemplate;
 
     private static final String REQUEST_URI = "https://kr.api.riotgames.com/lol/summoner/v4/summoners/by-name/{summonerName}?api_key=RGAPI-12220222-ebfc-4eaa-af12-f9f055506df9";
-    private static final String QUEUE_TYPE_REQUEST_URI = "https://kr.api.riotgames.com/lol/league/v4/entries/by-summoner/{encryptedSummonerId}?api_key=RGAPI-01e036eb-2f4a-443d-abc0-25d0c58850a7";
+    private static final String QUEUE_TYPE_REQUEST_URI = "https://kr.api.riotgames.com/lol/league/v4/entries/by-summoner/{encryptedSummonerId}?api_key=RGAPI-12220222-ebfc-4eaa-af12-f9f055506df9";
 
     public UserInfo getUserInfo(String summonerName){
         log.info("Requesting to API ...");
