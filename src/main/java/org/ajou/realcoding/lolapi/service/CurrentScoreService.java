@@ -21,7 +21,7 @@ public class CurrentScoreService {
 
         UserInfo currentUserInfoFromDb = currentScoreRepository.findUserInfoByName(summonerName);
 
-        if(currentUserInfoFromDb == null) { //id가 갖지 않은 경우 추가
+        if(currentUserInfoFromDb == null || currentUserInfo.getId() != currentUserInfoFromDb.getId()) {
             UserInfo insertedOrUpdatedCurrentUserInfo = currentScoreRepository.insertOrUpdatedCurrentUserInfo(currentUserInfo);
             log.info("CurrentUserInfo has inserted or updated successfully. UserInfo : {}", insertedOrUpdatedCurrentUserInfo);
             return insertedOrUpdatedCurrentUserInfo;
