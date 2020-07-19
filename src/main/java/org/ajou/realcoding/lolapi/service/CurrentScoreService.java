@@ -17,11 +17,11 @@ public class CurrentScoreService {
     private CurrentScoreRepository currentScoreRepository;
 
     public UserInfo getUserInfo(String summonerName) {
-        UserInfo currentUserInfo = scoreOpenApiClient.getUserInfo(summonerName);
 
         UserInfo currentUserInfoFromDb = currentScoreRepository.findUserInfoByName(summonerName);
 
-        if(currentUserInfoFromDb == null || currentUserInfo.getId() != currentUserInfoFromDb.getId()) {
+        if(currentUserInfoFromDb == null) {
+            UserInfo currentUserInfo = scoreOpenApiClient.getUserInfo(summonerName);
             UserInfo insertedOrUpdatedCurrentUserInfo = currentScoreRepository.insertOrUpdatedCurrentUserInfo(currentUserInfo);
             log.info("CurrentUserInfo has inserted or updated successfully. UserInfo : {}", insertedOrUpdatedCurrentUserInfo);
             return insertedOrUpdatedCurrentUserInfo;

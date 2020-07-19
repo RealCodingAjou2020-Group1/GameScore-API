@@ -21,12 +21,11 @@ public class CurrentScoreRepository {
 
 
     public UserInfo findUserInfoByName(String summonerName) {
-        log.info("Searching for ...");
+
         Query query = Query.query(
                 Criteria.where("name").is(summonerName)
         );
-        UserInfo userInfo = mongoTemplate.findOne(query, UserInfo.class);
-        log.info("Found userInfo!! : {}", userInfo.toString());
-        return userInfo;
+        //log.info("Found userInfo : {}", summonerName);
+        return mongoTemplate.findOne(query, UserInfo.class);
     }
 }
