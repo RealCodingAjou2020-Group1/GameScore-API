@@ -8,9 +8,10 @@ public class UserInfo {
     @Id
     private String id;
     private String accountId;
-    private String puuid;
+//    private String puuid;
     private String name;
-    private int profileIconId;
-    private Long revisionDate;
-    private int summonerLevel;
+//    private int profileIconId;
+//    private Long revisionDate;
+//    private int summonerLevel;
+    //필요한 값만 놔두고 도메인 수정
 }

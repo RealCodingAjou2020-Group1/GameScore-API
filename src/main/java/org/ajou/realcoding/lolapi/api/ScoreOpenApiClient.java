@@ -12,7 +12,7 @@ public class ScoreOpenApiClient {
     @Autowired
     private RestTemplate restTemplate;
 
-    private static final String REQUEST_URI = "https://kr.api.riotgames.com/lol/summoner/v4/summoners/by-name/{summonerName}?api_key=RGAPI-e767475c-1faf-4aca-8d30-4d17e9cf6c4a";
+    private static final String REQUEST_URI = "https://kr.api.riotgames.com/lol/summoner/v4/summoners/by-name/{summonerName}?api_key=RGAPI-12220222-ebfc-4eaa-af12-f9f055506df9";
 
     public UserInfo getUserInfo(String summonerName){
         log.info("Requesting to API ...");
