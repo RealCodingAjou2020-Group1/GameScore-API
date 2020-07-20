@@ -8,6 +8,8 @@ import java.util.List;
 @Data
 public class GameIds
 {
+    @Id
+    private UserInfo accountId;
     private int startIndex;
     private int totalGames;
     private int endIndex;
