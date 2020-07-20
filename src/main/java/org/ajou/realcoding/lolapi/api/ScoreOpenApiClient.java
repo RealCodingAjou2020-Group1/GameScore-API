@@ -19,9 +19,9 @@ public class ScoreOpenApiClient {
     @Autowired
     private RestTemplate restTemplate;
 
-    private final String apiKey = "RGAPI-f0ec7a9d-afd7-4102-8ce4-a60f09bf52fd";
+    private final String apiKey = "RGAPI-aa5efa04-45bd-4cd5-bcb8-7026464d0c01";
 
-    private static final String REQUEST_URI = "https://kr.api.riotgames.com/lol/summoner/v4/summoners/by-name/{summonerName}?api_key={}";
+    private static final String REQUEST_URI = "https://kr.api.riotgames.com/lol/summoner/v4/summoners/by-name/{summonerName}?api_key={apiKey}";
     private static final String QUEUE_TYPE_REQUEST_URI = "https://kr.api.riotgames.com/lol/league/v4/entries/by-summoner/{encryptedSummonerId}?api_key={apiKey}";
     private static final String GAMEID_REQUEST_URI = "https://kr.api.riotgames.com/lol/match/v4/matchlists/by-account/{accountId}?api_key={apiKey}";
     private static final String MATCHDATA_REQUEST_URI = "https://kr.api.riotgames.com/lol/match/v4/matches/{gameId}?api_key={apiKey}";
