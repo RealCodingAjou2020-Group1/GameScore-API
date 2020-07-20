@@ -3,13 +3,15 @@ package org.ajou.realcoding.lolapi.domain;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 
+import java.util.Date;
 import java.util.List;
 
 @Data
 public class GameIds
 {
     @Id
-    private UserInfo accountId;
+    private String accountId;
+    private Date Time;
     private int startIndex;
     private int totalGames;
     private int endIndex;
