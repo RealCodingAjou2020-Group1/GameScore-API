@@ -2,10 +2,7 @@ package org.ajou.realcoding.lolapi.repository;
 
 
 import lombok.extern.slf4j.Slf4j;
-import org.ajou.realcoding.lolapi.domain.Analysis;
-import org.ajou.realcoding.lolapi.domain.GameIds;
-import org.ajou.realcoding.lolapi.domain.SoloRankInfo;
-import org.ajou.realcoding.lolapi.domain.UserInfo;
+import org.ajou.realcoding.lolapi.domain.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -25,11 +22,10 @@ public class CurrentScoreRepository {
     }
 
     public UserInfo findUserInfoByName(String summonerName) {
-
         Query query = Query.query(
                 Criteria.where("name").is(summonerName)
         );
-        //log.info("Found userInfo : {}", summonerName);
+        log.info("Found userInfo : {}", summonerName);
         return mongoTemplate.findOne(query, UserInfo.class);
     }
 
@@ -48,25 +44,31 @@ public class CurrentScoreRepository {
         return mongoTemplate.find(query, SoloRankInfo.class);
     }
 
-    public Analysis insertOrUpdatedCurrentAnalysis(Analysis analysis) {
-        //log.info("CurrentMatchData has inserted or updated successfully. CurrentMatchData : {}", currentMatchData);
-        return mongoTemplate.save(analysis);
+    public Result insertOrUpdatedCurrentResult(Result result){
+        //log.info("New Result : {}", result);
+        return mongoTemplate.save(result);
     }
 
-    public Analysis findCurrentAnalysisByGameIdAndName(long gameId, String summonerName) {
+    public Result findCurrentResultById(String accountId) {
         Query query = new Query();
-        query.addCriteria(Criteria.where("gameId").is(gameId));
-        log.info("Find  : {}", gameId);
-        query.addCriteria(Criteria.where("summonerName").is(summonerName));
-        log.info("Find  : {}", summonerName);
-        return mongoTemplate.findOne(query, Analysis.class);
+        query.addCriteria(Criteria.where("_id").is(accountId));
+        //log.info("Find Result By : {}", accountId);
+        return mongoTemplate.findOne(query, Result.class);
     }
 
     public GameIds saveGameId(GameIds gameIds) {
         GameIds save100GameId = mongoTemplate.save(gameIds);
-        log.info("Saved : {}", gameIds);
+        log.info("Save : {}", gameIds);
 
-        return save100GameId;
+        return mongoTemplate.save(save100GameId);
     }
 
+    public GameIds findGameIds(String accountId) {
+        Query query = Query.query(
+                Criteria.where("accountId").is(accountId)
+        );
+        GameIds findGameId = mongoTemplate.findOne(query, GameIds.class);
+        log.info("Exist GameID : {}", findGameId);
+        return findGameId;
+    }
 }
