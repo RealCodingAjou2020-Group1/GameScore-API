@@ -15,10 +15,9 @@ public class CurrentScoreRepository
     @Autowired
     private MongoTemplate mongoTemplate;
 
-    public void saveGameId(GameIds gameIds)
+    public GameIds saveGameId(GameIds gameIds)
     {
-        GameIds save100GameId = mongoTemplate.save(gameIds);
-        log.info("Saved : {}", gameIds);
+        return mongoTemplate.save(gameIds);
     }
 
     public GameIds findGameIds(String accountId) {

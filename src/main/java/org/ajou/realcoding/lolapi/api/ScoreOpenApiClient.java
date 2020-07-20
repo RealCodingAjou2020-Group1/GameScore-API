@@ -10,7 +10,7 @@ public class ScoreOpenApiClient
 {
     @Autowired
     private RestTemplate restTemplate;
-    private static final String GAMEID_REQUEST_URI = "https://kr.api.riotgames.com/lol/match/v4/matchlists/by-account/{accountId}?api_key=RGAPI-f6535e71-2ccb-45db-8d3b-38cf9cf90902";
+    private static final String GAMEID_REQUEST_URI = "https://kr.api.riotgames.com/lol/match/v4/matchlists/by-account/{accountId}?api_key=RGAPI-34a47775-121a-47d9-b467-974d8bb34623";
 
     public GameIds getGameId(String accountId)
     {
