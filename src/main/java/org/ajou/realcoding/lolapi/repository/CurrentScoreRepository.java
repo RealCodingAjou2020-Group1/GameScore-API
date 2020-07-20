@@ -1,5 +1,21 @@
 package org.ajou.realcoding.lolapi.repository;
 
+
+import lombok.extern.slf4j.Slf4j;
+import org.ajou.realcoding.lolapi.domain.Analysis;
+import org.ajou.realcoding.lolapi.domain.GameIds;
+import org.ajou.realcoding.lolapi.domain.SoloRankInfo;
+import org.ajou.realcoding.lolapi.domain.UserInfo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+
+@Repository
+@Slf4j
 public class CurrentScoreRepository {
     @Autowired
     private MongoTemplate mongoTemplate;
@@ -7,7 +23,6 @@ public class CurrentScoreRepository {
     public UserInfo insertOrUpdatedCurrentUserInfo(UserInfo userInfo){
         return mongoTemplate.save(userInfo);
     }
-
 
     public UserInfo findUserInfoByName(String summonerName) {
 
@@ -25,7 +40,6 @@ public class CurrentScoreRepository {
         }
     }
 
-
     public List<SoloRankInfo> findSoloRankInfo(String encryptedSummonerId) {
         Query query = Query.query(
                 Criteria.where("summonerId").regex(encryptedSummonerId, "i")
@@ -34,10 +48,7 @@ public class CurrentScoreRepository {
         return mongoTemplate.find(query, SoloRankInfo.class);
     }
 
-    @Autowired
-    private MongoTemplate mongoTemplate;
-
-    public Analysis insertOrUpdatedCurrentResult(Analysis analysis) {
+    public Analysis insertOrUpdatedCurrentAnalysis(Analysis analysis) {
         //log.info("CurrentMatchData has inserted or updated successfully. CurrentMatchData : {}", currentMatchData);
         return mongoTemplate.save(analysis);
     }

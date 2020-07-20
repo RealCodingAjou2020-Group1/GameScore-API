@@ -1,5 +1,17 @@
 package org.ajou.realcoding.lolapi.service;
 
+import lombok.extern.slf4j.Slf4j;
+import org.ajou.realcoding.lolapi.api.ScoreOpenApiClient;
+import org.ajou.realcoding.lolapi.domain.*;
+import org.ajou.realcoding.lolapi.repository.CurrentScoreRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@Slf4j
+@Service
 public class CurrentScoreService {
 
     @Autowired
@@ -8,7 +20,6 @@ public class CurrentScoreService {
     private CurrentScoreRepository currentScoreRepository;
 
     public UserInfo getUserInfo(String summonerName) {
-
         UserInfo currentUserInfoFromDb = currentScoreRepository.findUserInfoByName(summonerName);
 
         if(currentUserInfoFromDb == null) {
@@ -20,8 +31,6 @@ public class CurrentScoreService {
         log.info("Already exists. CurrentUserInfo : {}", currentUserInfoFromDb);
         return currentUserInfoFromDb;
     }
-
-
 
     public List<SoloRankInfo> getSoloRankInfo(String encryptedSummonerId) {
 
@@ -37,27 +46,22 @@ public class CurrentScoreService {
         return currentSoloRankInfoFromDb;
     }
 
-
-
-    @Autowired
-    private ScoreOpenApiClient scoreOpenApiClient;
-    @Autowired
-    private CurrentScoreRepository currentScoreRepository;
-
     public GameIds getGameId(String accountId) {
         GameIds gameIds = scoreOpenApiClient.getGameId(accountId);
-        GameIds currentGameId = currentScoreRepository.findGameIds(accountId);
+        GameIds insertedOrUpdatedGameId = currentScoreRepository.saveGameId(gameIds);
+        return insertedOrUpdatedGameId;
+        //GameIds currentGameId = currentScoreRepository.findGameIds(accountId);
 
-        if (currentGameId == null || gameIds.getTotalGames() != currentGameId.getTotalGames()) {
-            gameIds.setAccountId(accountId);
-            GameIds insertedOrUpdatedGameId = currentScoreRepository.saveGameId(gameIds);
-            log.info("New GameId has inserted or updated successfully. InsertedOrUpdateGameId : {}", insertedOrUpdatedGameId);
-            return insertedOrUpdatedGameId;
-        }
-        else{
-            log.info("Already exists. CurrentGameId : {}", currentGameId);
-            return currentGameId;
-        }
+        //if (currentGameId == null || gameIds.getTotalGames() != currentGameId.getTotalGames()) {
+        //    gameIds.setAccountId(accountId);
+        //    GameIds insertedOrUpdatedGameId = currentScoreRepository.saveGameId(gameIds);
+        //    log.info("New GameId has inserted or updated successfully. InsertedOrUpdateGameId : {}", insertedOrUpdatedGameId);
+        //    return insertedOrUpdatedGameId;
+       // }
+        //else{
+        //    log.info("Already exists. CurrentGameId : {}", currentGameId);
+        //    return currentGameId;
+        //}
     }
 
     public List<String> getFiveGameId(GameIds gameIds) {
@@ -67,7 +71,6 @@ public class CurrentScoreService {
         for(int i = 0; i < 5; i++){
             fiveGameIds.add(String.valueOf(allGameIds.get(i).getGameId()));
         }
-
         return fiveGameIds;
     }
 
@@ -90,7 +93,6 @@ public class CurrentScoreService {
         }
         return resultAnalysis;
     }
-
 
 
     public Analysis analyzeMatchData(MatchData matchData, String summonerName){
