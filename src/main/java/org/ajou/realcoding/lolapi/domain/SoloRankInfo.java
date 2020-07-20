@@ -7,7 +7,7 @@ import org.springframework.data.annotation.Id;
 public class SoloRankInfo {
     private String leagueId;
     private String queueType;
-    private String tier;
+    //private String tier;
     private String rank;
     private String summonerId;
     private String summonerName;
@@ -15,7 +15,7 @@ public class SoloRankInfo {
     private int wins;
     private int losses;
     private boolean veteran;
-    private boolean inactive;
-    private boolean freshBlood;
-    private boolean hotStreak;
+    //private boolean inactive;
+    //private boolean freshBlood;
+    //private boolean hotStreak;
 }
