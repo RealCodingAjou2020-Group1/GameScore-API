@@ -5,6 +5,7 @@ import org.springframework.data.annotation.Id;
 
 @Data
 public class SoloRankInfo {
+    @Id
     private String leagueId;
     private String queueType;
     //private String tier;

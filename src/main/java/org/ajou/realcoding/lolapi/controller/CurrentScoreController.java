@@ -1,19 +1,11 @@
 package org.ajou.realcoding.lolapi.controller;
 
-import lombok.extern.slf4j.Slf4j;
-import org.ajou.realcoding.lolapi.domain.SoloRankInfo;
 import org.ajou.realcoding.lolapi.service.CurrentScoreService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
-
-@Slf4j
 @RestController
 public class CurrentScoreController {
 
@@ -26,4 +18,14 @@ public class CurrentScoreController {
         return currentScoreService.getSoloRankInfo(currentScoreService.getUserInfo(summonerName).getId());
     }
 
+    private List<Analysis> result = new ArrayList<>();
+
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @GetMapping("/lol/games/{summonerName}")
+    public List<Analysis> getAnalysis(@RequestParam String summonerName) {
+        //String accountId = "3CvKgEoNw43RLWlbVTEiIv2OSd5sfMURYMs2iBQO-f0b";
+        String accountId = "G-Dzk101eUvGY_sv183fa9z5DGbRxITFGR6zb-eRZmMhtDo";
+
+        return currentScoreService.getAnalysis(currentScoreService.getFiveGameId(accountId), summonerName);
+    }
 }
