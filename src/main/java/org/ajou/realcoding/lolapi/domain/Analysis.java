@@ -5,7 +5,6 @@ import lombok.Data;
 
 @Data
 public class Analysis {
-    private String summonerName;
     private long gameId;
     private int participantId;
     private int teamId;
