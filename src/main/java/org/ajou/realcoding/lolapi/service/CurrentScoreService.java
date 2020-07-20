@@ -21,15 +21,28 @@ public class CurrentScoreService {
     @Autowired
     private CurrentScoreRepository currentScoreRepository;
 
-    public List<String> getFiveGameId(String accountId) {
+    public GameIds getGameId(String accountId) {
+        GameIds gameIds = scoreOpenApiClient.getGameId(accountId);
+        GameIds currentGameId = currentScoreRepository.findGameIds(accountId);
+
+        if (currentGameId == null || gameIds.getTotalGames() != currentGameId.getTotalGames()) {
+            gameIds.setAccountId(accountId);
+            GameIds insertedOrUpdatedGameId = currentScoreRepository.saveGameId(gameIds);
+            log.info("New GameId has inserted or updated successfully. InsertedOrUpdateGameId : {}", insertedOrUpdatedGameId);
+            return insertedOrUpdatedGameId;
+        }
+        else{
+            log.info("Already exists. CurrentGameId : {}", currentGameId);
+            return currentGameId;
+        }
+    }
+
+    public List<String> getFiveGameId(GameIds gameIds) {
         List<String> fiveGameIds = new ArrayList<>();
-
-        GameIds currentGameIds = currentScoreRepository.saveGameId(scoreOpenApiClient.getGameId(accountId));
-
-        List<GameIds.MatchReferenceDto> temp = currentGameIds.getMatches();
+        List<GameIds.MatchReferenceDto> allGameIds = gameIds.getMatches();
 
         for(int i = 0; i < 5; i++){
-            fiveGameIds.add(String.valueOf(temp.get(i).getGameId()));
+            fiveGameIds.add(String.valueOf(allGameIds.get(i).getGameId()));
         }
 
         return fiveGameIds;
@@ -43,7 +56,7 @@ public class CurrentScoreService {
             long gameId = Long.parseLong(matchId);
             Analysis currentAnalysisFromDb = currentScoreRepository.findCurrentAnalysisByGameIdAndName(gameId, summonerName);
             if (currentAnalysisFromDb == null || currentAnalysisFromDb.getGameId() != currentAnalysis.getGameId()) {
-                Analysis insertedOrUpdatedAnalysis = currentScoreRepository.insertOrUpdatedCurrentResult(currentAnalysis);
+                Analysis insertedOrUpdatedAnalysis = currentScoreRepository.insertOrUpdatedCurrentAnalysis(currentAnalysis);
                 log.info("New Analysis has inserted or updated successfully. CurrentAnalysis : {}", insertedOrUpdatedAnalysis);
                 resultAnalysis.add(insertedOrUpdatedAnalysis);
             }
@@ -55,12 +68,14 @@ public class CurrentScoreService {
         return resultAnalysis;
     }
 
+
+
     public Analysis analyzeMatchData(MatchData matchData, String summonerName){
         Analysis currentAnalysis = new Analysis();
 
-        List<ParticipantIdentityDto> participantIdentities = matchData.getParticipantIdentities();
-        List<ParticipantDto> participant = matchData.getParticipants();
-        List<TeamStatsDto> teamStats = matchData.getTeams();
+        List<MatchData.ParticipantIdentityDto> participantIdentities = matchData.getParticipantIdentities();
+        List<MatchData.ParticipantDto> participant = matchData.getParticipants();
+        List<MatchData.TeamStatsDto> teamStats = matchData.getTeams();
 
         currentAnalysis.setSummonerName(summonerName);
         currentAnalysis.setGameId(matchData.getGameId());
