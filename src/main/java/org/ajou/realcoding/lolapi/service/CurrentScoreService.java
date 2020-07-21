@@ -95,19 +95,21 @@ public class CurrentScoreService {
         List<Analysis> resultAnalysis = new ArrayList<Analysis>();
 
         if(currenResultFromDb == null || currenResultFromDb.getAnalysisList().get(0).getGameId() != Long.parseLong(gameIds.get(0))){
-            //해당 accountId의 분석결과가 없거나 새로운 game에 참여했었으면 업데이트 한다.
+            //해당 accountId의 분석결과가 없거나 새로운 game에 참여했으면 업데이트 한다.
             for(String matchId : gameIds){
                 long gameId = Long.parseLong(matchId);
                 Analysis currentAnalysis = analyzeMatchData(scoreOpenApiClient.getMatchData(matchId), summonerName);
                 resultAnalysis.add(currentAnalysis);
-            }
+                            }
             Result currentResult = new Result();
             currentResult.setAccountId(accountId);
             currentResult.setAnalysisList(resultAnalysis);
             currentScoreRepository.insertOrUpdatedCurrentResult(currentResult);
+            log.info("New Result added: {}", currentResult);
             return currentResult;
         }
         //아니라면 DB에 있는 데이터를 가져온다.
+        log.info("Result already exists : {}", currenResultFromDb);
         return currenResultFromDb;
     }
 
@@ -118,26 +120,25 @@ public class CurrentScoreService {
         List<MatchData.ParticipantDto> participant = matchData.getParticipants();
         List<MatchData.TeamStatsDto> teamStats = matchData.getTeams();
 
-        //currentAnalysis.setSummonerName(summonerName);
         currentAnalysis.setGameId(matchData.getGameId());
 
         for(int i = 0; i < participantIdentities.size(); i++){
+            //해당 소환사명의 participantID를 찾는다.
             if(summonerName.equals(participantIdentities.get(i).getPlayer().getSummonerName())){
                 currentAnalysis.setParticipantId(participantIdentities.get(i).getParticipantId());
-                //log.info("ParticipantId : {}", currentAnalysis.getParticipantId());
                 for(int j = 0; j < participant.size(); j++){
                     if(currentAnalysis.getParticipantId() == participant.get(j).getParticipantId()){
+                        //participantID를 이용하여 해당 소환사의 인게임 정보를 가져온다.
                         currentAnalysis.setTeamId(participant.get(j).getTeamId());
                         currentAnalysis.setChampionId(participant.get(j).getChampionId());
                         currentAnalysis.setKill(participant.get(j).getStats().getKills());
                         currentAnalysis.setDeath(participant.get(j).getStats().getDeaths());
                         currentAnalysis.setAssists(participant.get(j).getStats().getAssists());
-                        //log.info("Participant Stat : {}", participant.get(j).getStats());
 
                         for(int k = 0; k <teamStats.size(); k++){
                             if(currentAnalysis.getTeamId() == teamStats.get(k).getTeamId()){
+                                //TeamId를 이용하여 승패여부를 확인한다.
                                 currentAnalysis.setWin(teamStats.get(k).getWin());
-                                //log.info("Participant Win : {}", teamStats.get(k));
                             }
                         }
                     }
