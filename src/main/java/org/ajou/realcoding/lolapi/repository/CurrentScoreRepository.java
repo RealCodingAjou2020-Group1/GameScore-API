@@ -38,6 +38,7 @@ public class CurrentScoreRepository {
         }
     }
 
+    //앞뒤에 어떤 문자나 문자열이 오든 summonerId에 들어있는 문자열이 포함되면 조회한다.
     public List<SoloRankInfo> findSoloRankInfoByEncryptedSummonerId(String summonerId) {
         Query query = Query.query(
                 Criteria.where("summonerId").regex(summonerId, "i")
