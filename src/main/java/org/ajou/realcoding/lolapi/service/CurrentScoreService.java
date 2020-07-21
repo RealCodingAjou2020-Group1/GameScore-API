@@ -22,6 +22,7 @@ public class CurrentScoreService {
     @Autowired
     private CurrentScoreRepository currentScoreRepository;
 
+    //summonerName 으로 DB 에서 해당 userInfo 를 찾고, 없으면 API 에서 호출 후 DB 저장 하고 return
     public UserInfo getUserInfo(String summonerName) {
         UserInfo currentUserInfoFromDb = currentScoreRepository.findUserInfoBySummonerName(summonerName);
 
