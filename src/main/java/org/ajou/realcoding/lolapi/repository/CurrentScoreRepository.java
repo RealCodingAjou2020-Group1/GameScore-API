@@ -36,9 +36,9 @@ public class CurrentScoreRepository {
         }
     }
 
-    public List<SoloRankInfo> findSoloRankInfoByEncryptedSummonerId(String encryptedSummonerId) {
+    public List<SoloRankInfo> findSoloRankInfoByEncryptedSummonerId(String summonerId) {
         Query query = Query.query(
-                Criteria.where("summonerId").regex(encryptedSummonerId, "i")
+                Criteria.where("summonerId").regex(summonerId, "i")
         );
         //log.info("USER INFO: {}", soloRankInfoList.toString());
         return mongoTemplate.find(query, SoloRankInfo.class);

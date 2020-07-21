@@ -35,15 +35,15 @@ public class CurrentScoreService {
         return currentUserInfoFromDb;
     }
 
-    public List<SoloRankInfo> getSoloRankInfo(String encryptedSummonerId) {
+    public List<SoloRankInfo> getSoloRankInfo(String summonerId) {
 
-        List<SoloRankInfo> currentSoloRankInfoFromDb = currentScoreRepository.findSoloRankInfoByEncryptedSummonerId(encryptedSummonerId);
+        List<SoloRankInfo> currentSoloRankInfoFromDb = currentScoreRepository.findSoloRankInfoByEncryptedSummonerId(summonerId);
 
         if(currentSoloRankInfoFromDb.isEmpty()){
-            List<SoloRankInfo> soloRankInfo = scoreOpenApiClient.getSoloRankInfo(encryptedSummonerId);
+            List<SoloRankInfo> soloRankInfo = scoreOpenApiClient.getSoloRankInfo(summonerId);
             currentScoreRepository.insertOrUpdateCurrentSoloRankInfo(soloRankInfo);
             log.info("CurrentUserInfo has inserted or updated successfully. UserInfo : {}", currentSoloRankInfoFromDb);
-            return currentScoreRepository.findSoloRankInfoByEncryptedSummonerId(encryptedSummonerId);
+            return currentScoreRepository.findSoloRankInfoByEncryptedSummonerId(summonerId);
         }
         log.info("Already exists. CurrentUserInfo : {}", currentSoloRankInfoFromDb);
         return currentSoloRankInfoFromDb;

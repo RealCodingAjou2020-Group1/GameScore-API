@@ -19,20 +19,20 @@ public class ScoreOpenApiClient {
     @Autowired
     private RestTemplate restTemplate;
 
-    private final String apiKey = "RGAPI-3a10ce98-0fb3-47d2-ae0a-60b22ffc9979";
+    private final String apiKey = "RGAPI-4874d657-5f9f-44ec-94da-c40d8f812b9f";
 
-    private static final String REQUEST_URI = "https://kr.api.riotgames.com/lol/summoner/v4/summoners/by-name/{summonerName}?api_key={apikey}";
-    private static final String QUEUE_TYPE_REQUEST_URI = "https://kr.api.riotgames.com/lol/league/v4/entries/by-summoner/{encryptedSummonerId}?api_key={apiKey}";
+    private static final String USERINFO_REQUEST_URI = "https://kr.api.riotgames.com/lol/summoner/v4/summoners/by-name/{summonerName}?api_key={apikey}";
+    private static final String QUEUETYPE_REQUEST_URI = "https://kr.api.riotgames.com/lol/league/v4/entries/by-summoner/{encryptedSummonerId}?api_key={apiKey}";
     private static final String GAMEID_REQUEST_URI = "https://kr.api.riotgames.com/lol/match/v4/matchlists/by-account/{accountId}?api_key={apiKey}";
     private static final String MATCHDATA_REQUEST_URI = "https://kr.api.riotgames.com/lol/match/v4/matches/{gameId}?api_key={apiKey}";
 
     public UserInfo getUserInfo(String summonerName){
         log.info("Requesting to API ...");
-        return restTemplate.getForObject(REQUEST_URI, UserInfo.class, summonerName, apiKey);
+        return restTemplate.getForObject(USERINFO_REQUEST_URI, UserInfo.class, summonerName, apiKey);
     }
 
     public List<SoloRankInfo> getSoloRankInfo(String encryptedSummonerId){
-        SoloRankInfo[] response = restTemplate.getForObject(QUEUE_TYPE_REQUEST_URI, SoloRankInfo[].class, encryptedSummonerId, apiKey);
+        SoloRankInfo[] response = restTemplate.getForObject(QUEUETYPE_REQUEST_URI, SoloRankInfo[].class, encryptedSummonerId, apiKey);
         List<SoloRankInfo> soloRankInfoList = Arrays.asList(response);
         for (SoloRankInfo soloRankInfo : soloRankInfoList) {
             log.info(soloRankInfo.toString());
