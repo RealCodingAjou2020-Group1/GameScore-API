@@ -25,9 +25,9 @@ public class CurrentScoreController {
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping("/lol/RecentFiveGameResults/{summonerName}")
-    public Result getResult(@RequestParam String summonerName) throws ParseException {
+    public List<Analysis> getResult(@RequestParam String summonerName) throws ParseException {
         UserInfo userInfo = currentScoreService.getUserInfo(summonerName);
         currentScoreService.getSoloRankInfo(userInfo.getId());
-        return currentScoreService.getAnalysis(currentScoreService.getFiveGameId(currentScoreService.getGameId(userInfo.getAccountId())), userInfo.getAccountId(), summonerName);
+        return currentScoreService.getAnalysis(currentScoreService.getFiveGameId(currentScoreService.getGameId(userInfo.getAccountId())), userInfo.getAccountId(), summonerName).getAnalysisList();
     }
 }
