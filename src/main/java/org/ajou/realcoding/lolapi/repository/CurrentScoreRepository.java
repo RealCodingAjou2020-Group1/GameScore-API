@@ -17,10 +17,12 @@ public class CurrentScoreRepository {
     @Autowired
     private MongoTemplate mongoTemplate;
 
+    //parameter 로 들어온 userInfo 를 MongoDB에 저장
     public UserInfo insertOrUpdatedCurrentUserInfo(UserInfo userInfo){
         return mongoTemplate.save(userInfo);
     }
 
+    //summonerName 으로 DB 에서 해당 값 찾아서 return
     public UserInfo findUserInfoBySummonerName(String summonerName) {
         Query query = Query.query(
                 Criteria.where("name").is(summonerName)
