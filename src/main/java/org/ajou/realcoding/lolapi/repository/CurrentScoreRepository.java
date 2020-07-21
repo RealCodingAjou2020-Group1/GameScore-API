@@ -44,11 +44,12 @@ public class CurrentScoreRepository {
         return mongoTemplate.find(query, SoloRankInfo.class);
     }
 
+    //전달받은 result 객체를 DB에 저장
     public Result insertOrUpdatedCurrentResult(Result result){
         //log.info("New Result : {}", result);
         return mongoTemplate.save(result);
     }
-
+    //accountID를 key값으로 하는 Result DB에 검색하여 return
     public Result findCurrentResultByAccountId(String accountId) {
         Query query = new Query();
         query.addCriteria(Criteria.where("_id").is(accountId));

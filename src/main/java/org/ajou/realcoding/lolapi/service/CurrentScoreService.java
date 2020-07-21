@@ -49,6 +49,8 @@ public class CurrentScoreService {
         return currentSoloRankInfoFromDb;
     }
 
+
+    //accountID에 해당하는 100경기의 gameid들을 api를 호출하거나 DB에 있는 데이터 확인하여 return
     public GameIds getGameId(String accountId) throws ParseException {
         Date curDate = new Date();
         long saveTime;
@@ -80,6 +82,7 @@ public class CurrentScoreService {
         }
     }
 
+    //전달받은 GameIds중 최근 5개의 gameid를 뽑아내어 list로 만들어 return
     public List<String> getFiveGameId(GameIds gameIds) {
         List<String> fiveGameIds = new ArrayList<>();
         List<GameIds.MatchReferenceDto> allGameIds = gameIds.getMatches();
@@ -90,6 +93,7 @@ public class CurrentScoreService {
         return fiveGameIds;
     }
 
+    //최근 5개의 gameid를 분석하여 result 객체에 넣어 return
     public Result getAnalysis(List<String> gameIds, String accountId, String summonerName){
         Result currenResultFromDb = currentScoreRepository.findCurrentResultByAccountId(accountId);
         List<Analysis> resultAnalysis = new ArrayList<Analysis>();
@@ -113,6 +117,7 @@ public class CurrentScoreService {
         return currenResultFromDb;
     }
 
+    //api를 통해 받은 matchdata를 분석하여 현재 summonerName에 대한 정보를 찾아내어 return
     public Analysis analyzeMatchData(MatchData matchData, String summonerName){
         Analysis currentAnalysis = new Analysis();
         //입력받은 matchData를 분석하여 필요한 정보를 뽑아낸다.
