@@ -23,7 +23,7 @@ public class CurrentScoreService {
     private CurrentScoreRepository currentScoreRepository;
 
     public UserInfo getUserInfo(String summonerName) {
-        UserInfo currentUserInfoFromDb = currentScoreRepository.findUserInfoByName(summonerName);
+        UserInfo currentUserInfoFromDb = currentScoreRepository.findUserInfoBySummonerName(summonerName);
 
         if(currentUserInfoFromDb == null) {
             UserInfo currentUserInfo = scoreOpenApiClient.getUserInfo(summonerName);
@@ -37,13 +37,13 @@ public class CurrentScoreService {
 
     public List<SoloRankInfo> getSoloRankInfo(String encryptedSummonerId) {
 
-        List<SoloRankInfo> currentSoloRankInfoFromDb = currentScoreRepository.findSoloRankInfo(encryptedSummonerId);
+        List<SoloRankInfo> currentSoloRankInfoFromDb = currentScoreRepository.findSoloRankInfoByEncryptedSummonerId(encryptedSummonerId);
 
         if(currentSoloRankInfoFromDb.isEmpty()){
             List<SoloRankInfo> soloRankInfo = scoreOpenApiClient.getSoloRankInfo(encryptedSummonerId);
             currentScoreRepository.insertOrUpdateCurrentSoloRankInfo(soloRankInfo);
             log.info("CurrentUserInfo has inserted or updated successfully. UserInfo : {}", currentSoloRankInfoFromDb);
-            return currentScoreRepository.findSoloRankInfo(encryptedSummonerId);
+            return currentScoreRepository.findSoloRankInfoByEncryptedSummonerId(encryptedSummonerId);
         }
         log.info("Already exists. CurrentUserInfo : {}", currentSoloRankInfoFromDb);
         return currentSoloRankInfoFromDb;
@@ -57,7 +57,7 @@ public class CurrentScoreService {
         long curDateTime = curDate.getTime(); //현재 시간
         log.info("Current time :{}", curDate);
 
-        GameIds gameIdsFromDb = currentScoreRepository.findGameIds(accountId);
+        GameIds gameIdsFromDb = currentScoreRepository.findGameIdsByAccountId(accountId);
         if(gameIdsFromDb != null)
              saveTime = gameIdsFromDb.getTime().getTime();//accountId에 해당하는 gameid가 저장된 시간
         else saveTime = 0;
@@ -75,7 +75,7 @@ public class CurrentScoreService {
         }
         else{//만약 이미 저장되어 있거나 시간이 별로 차이 안난다면 DB에 있는 데이터를 가져온다.
             log.info("Saved time :{}", curDate);
-            GameIds findGameIds = currentScoreRepository.findGameIds(accountId);
+            GameIds findGameIds = currentScoreRepository.findGameIdsByAccountId(accountId);
             return findGameIds;
         }
     }
@@ -91,7 +91,7 @@ public class CurrentScoreService {
     }
 
     public Result getAnalysis(List<String> gameIds, String accountId, String summonerName){
-        Result currenResultFromDb = currentScoreRepository.findCurrentResultById(accountId);
+        Result currenResultFromDb = currentScoreRepository.findCurrentResultByAccountId(accountId);
         List<Analysis> resultAnalysis = new ArrayList<Analysis>();
 
         if(currenResultFromDb == null || currenResultFromDb.getAnalysisList().get(0).getGameId() != Long.parseLong(gameIds.get(0))){

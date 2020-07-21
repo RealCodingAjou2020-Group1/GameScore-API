@@ -21,7 +21,7 @@ public class CurrentScoreRepository {
         return mongoTemplate.save(userInfo);
     }
 
-    public UserInfo findUserInfoByName(String summonerName) {
+    public UserInfo findUserInfoBySummonerName(String summonerName) {
         Query query = Query.query(
                 Criteria.where("name").is(summonerName)
         );
@@ -36,7 +36,7 @@ public class CurrentScoreRepository {
         }
     }
 
-    public List<SoloRankInfo> findSoloRankInfo(String encryptedSummonerId) {
+    public List<SoloRankInfo> findSoloRankInfoByEncryptedSummonerId(String encryptedSummonerId) {
         Query query = Query.query(
                 Criteria.where("summonerId").regex(encryptedSummonerId, "i")
         );
@@ -49,7 +49,7 @@ public class CurrentScoreRepository {
         return mongoTemplate.save(result);
     }
 
-    public Result findCurrentResultById(String accountId) {
+    public Result findCurrentResultByAccountId(String accountId) {
         Query query = new Query();
         query.addCriteria(Criteria.where("_id").is(accountId));
         //log.info("Find Result By : {}", accountId);
@@ -63,7 +63,7 @@ public class CurrentScoreRepository {
         return mongoTemplate.save(save100GameId);
     }
 
-    public GameIds findGameIds(String accountId) {
+    public GameIds findGameIdsByAccountId(String accountId) {
         Query query = Query.query(
                 Criteria.where("accountId").is(accountId)
         );
