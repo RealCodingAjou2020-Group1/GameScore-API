@@ -17,10 +17,12 @@ public class CurrentScoreRepository {
     @Autowired
     private MongoTemplate mongoTemplate;
 
+    //parameter 로 들어온 userInfo 를 MongoDB에 저장
     public UserInfo insertOrUpdatedCurrentUserInfo(UserInfo userInfo){
         return mongoTemplate.save(userInfo);
     }
 
+    //summonerName 으로 DB 에서 해당 값 찾아서 return
     public UserInfo findUserInfoBySummonerName(String summonerName) {
         Query query = Query.query(
                 Criteria.where("name").is(summonerName)
@@ -45,11 +47,12 @@ public class CurrentScoreRepository {
         return mongoTemplate.find(query, SoloRankInfo.class);
     }
 
+    //전달받은 result 객체를 DB에 저장
     public Result insertOrUpdatedCurrentResult(Result result){
         //log.info("New Result : {}", result);
         return mongoTemplate.save(result);
     }
-
+    //accountID를 key값으로 하는 Result DB에 검색하여 return
     public Result findCurrentResultByAccountId(String accountId) {
         Query query = new Query();
         query.addCriteria(Criteria.where("_id").is(accountId));
