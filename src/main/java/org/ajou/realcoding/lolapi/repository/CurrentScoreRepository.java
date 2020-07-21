@@ -59,6 +59,7 @@ public class CurrentScoreRepository {
         return mongoTemplate.findOne(query, Result.class);
     }
 
+    //100개의 gameIds를 DB에 저장.
     public GameIds saveGameId(GameIds gameIds) {
         GameIds save100GameId = mongoTemplate.save(gameIds);
         log.info("Save : {}", gameIds);
@@ -66,6 +67,7 @@ public class CurrentScoreRepository {
         return mongoTemplate.save(save100GameId);
     }
 
+    //accountId를 이용한 query로 DB 탐색 후, log 출력 및 탐색결과 return.
     public GameIds findGameIdsByAccountId(String accountId) {
         Query query = Query.query(
                 Criteria.where("accountId").is(accountId)
