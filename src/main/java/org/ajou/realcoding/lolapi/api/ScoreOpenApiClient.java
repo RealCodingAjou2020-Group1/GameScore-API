@@ -31,12 +31,13 @@ public class ScoreOpenApiClient {
         return restTemplate.getForObject(USERINFO_REQUEST_URI, UserInfo.class, summonerName, apiKey);
     }
 
-    public List<SoloRankInfo> getSoloRankInfo(String encryptedSummonerId){
-        SoloRankInfo[] response = restTemplate.getForObject(QUEUETYPE_REQUEST_URI, SoloRankInfo[].class, encryptedSummonerId, apiKey);
+    //json형태의 파일을 객체로 반환받는다.
+    public List<SoloRankInfo> getSoloRankInfo(String summonerId){
+        SoloRankInfo[] response = restTemplate.getForObject(QUEUETYPE_REQUEST_URI, SoloRankInfo[].class, summonerId, apiKey);
         List<SoloRankInfo> soloRankInfoList = Arrays.asList(response);
-        for (SoloRankInfo soloRankInfo : soloRankInfoList) {
+        /*for (SoloRankInfo soloRankInfo : soloRankInfoList) {
             log.info(soloRankInfo.toString());
-        }
+        }*/
 
         return soloRankInfoList;
     }
@@ -45,6 +46,7 @@ public class ScoreOpenApiClient {
         return restTemplate.getForObject(MATCHDATA_REQUEST_URI, MatchData.class, gameId, apiKey);
     }
 
+    //API를 호출하여, gameIds를 return하는 메소드.
     public GameIds getGameId(String accountId)
     {
         GameIds gameIds = restTemplate.getForObject(GAMEID_REQUEST_URI, GameIds.class, accountId, apiKey);
