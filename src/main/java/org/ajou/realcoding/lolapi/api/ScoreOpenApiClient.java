@@ -45,6 +45,7 @@ public class ScoreOpenApiClient {
         return restTemplate.getForObject(MATCHDATA_REQUEST_URI, MatchData.class, gameId, apiKey);
     }
 
+    //API를 호출하여, gameIds를 return하는 메소드.
     public GameIds getGameId(String accountId)
     {
         GameIds gameIds = restTemplate.getForObject(GAMEID_REQUEST_URI, GameIds.class, accountId, apiKey);
