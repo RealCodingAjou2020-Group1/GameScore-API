@@ -52,6 +52,8 @@ public class CurrentScoreService {
 
 
     //accountID에 해당하는 100경기의 gameid들을 api를 호출하거나 DB에 있는 데이터 확인하여 return
+    //처음 검색하는 acountId거나, 검색한 지 20분이 지났다면, API를 호출하여 그 값을 return.
+    //검색한 지 20분이 지나지 않았다면, DB에 있는 데이터를 return.
     public GameIds getGameId(String accountId) throws ParseException {
         Date curDate = new Date();
         long saveTime;
