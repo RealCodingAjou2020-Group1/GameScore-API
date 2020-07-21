@@ -100,7 +100,7 @@ public class CurrentScoreService {
                 long gameId = Long.parseLong(matchId);
                 Analysis currentAnalysis = analyzeMatchData(scoreOpenApiClient.getMatchData(matchId), summonerName);
                 resultAnalysis.add(currentAnalysis);
-                            }
+            }
             Result currentResult = new Result();
             currentResult.setAccountId(accountId);
             currentResult.setAnalysisList(resultAnalysis);
@@ -124,7 +124,7 @@ public class CurrentScoreService {
 
         for(int i = 0; i < participantIdentities.size(); i++){
             //해당 소환사명의 participantID를 찾는다.
-            if(summonerName.equals(participantIdentities.get(i).getPlayer().getSummonerName())){
+            if(summonerName.equalsIgnoreCase(participantIdentities.get(i).getPlayer().getSummonerName())){
                 currentAnalysis.setParticipantId(participantIdentities.get(i).getParticipantId());
                 for(int j = 0; j < participant.size(); j++){
                     if(currentAnalysis.getParticipantId() == participant.get(j).getParticipantId()){
