@@ -35,6 +35,7 @@ public class CurrentScoreService {
         return currentUserInfoFromDb;
     }
 
+    //암호화된 summonerId로 DB에서 해당 solorankinfo를 찾고, 없다면 API에서 호출한 뒤 DB에 저장하고 return
     public List<SoloRankInfo> getSoloRankInfo(String summonerId) {
 
         List<SoloRankInfo> currentSoloRankInfoFromDb = currentScoreRepository.findSoloRankInfoByEncryptedSummonerId(summonerId);
